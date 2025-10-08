@@ -1,27 +1,18 @@
-import React, { Suspense } from 'react';
+import { RouterProvider } from 'react-router-dom';
+import router from './routes';
+import { Suspense } from 'react';
+import CircularProgress from '@mui/material/CircularProgress';
 
-const RemoteHeader = React.lazy(() => import('remote_header/Header'));
-const RemoteLogin = React.lazy(() => import('remote_login/Login'));
-const RemoteListing = React.lazy(() => import('remote_listing/Listing'));
-
-const LoadingSpinner = () => (
-  <div className="flex justify-center p-4">
-    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
-  </div>
-);
-
-function App() {
+export default function App() {
   return (
-    <div className="p-4">
-      <Suspense fallback={<LoadingSpinner />}>
-        <RemoteHeader />
-        <RemoteLogin />
-        <RemoteListing />
-      </Suspense>
-
-      <h1>app main</h1>
-    </div>
+    <Suspense
+      fallback={
+        <div className="flex justify-center items-center h-screen">
+          <CircularProgress />
+        </div>
+      }
+    >
+      <RouterProvider router={router} />
+    </Suspense>
   );
 }
-
-export default App;
