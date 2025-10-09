@@ -1,62 +1,43 @@
-import { lazy, Suspense } from 'react';
-import { createBrowserRouter } from 'react-router-dom';
-import ProtectedRoute from './protectedRoute';
-import ErrorBoundary from './ErrorBoundary';
-import CircularProgress from '@mui/material/CircularProgress';
-import Box from '@mui/material/Box';
+import { createBrowserRouter } from "react-router-dom";
+import LoginWrapper from "../components/wrappers/LoginWrapper";
+import ProtectedRoute from "../components/wrappers/ProtectedRouteWrapper";
+import { SuspenseWrapper } from "../components/wrappers/SuspenseWrapper";
+import ErrorBoundary from "./ErrorBoundary";
+import { lazy } from "react";
 
-const RemoteHeader = lazy(() => import('remote_header/Header'));
-const RemoteLogin = lazy(() => import('remote_login/Login'));
-const RemoteListing = lazy(() => import('remote_listing/Listing'));
-
-const LoadingFallback = () => (
-  <Box
-    sx={{
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      minHeight: '100vh',
-    }}
-  >
-    <CircularProgress size={60} thickness={4} color="primary" />
-  </Box>
-);
-
+const ListingWrapper = lazy(() => import("remote_listing/Listing"));
+const HeaderWrapper = lazy(() => import("remote_header/Header"));
 
 const router = createBrowserRouter([
   {
-    path: '/login',
-    element: (
-      <Suspense fallback={<LoadingFallback />}>
-        <RemoteLogin />
-      </Suspense>
-    ),
+    path: "/login",
+    element: <LoginWrapper />,
     errorElement: <ErrorBoundary />,
   },
   {
-    path: '/home',
+    path: "/home",
     element: (
       <ProtectedRoute>
-        <Suspense fallback={<LoadingFallback />}>
-          <RemoteListing />
-        </Suspense>
+        <SuspenseWrapper>
+          <ListingWrapper />
+        </SuspenseWrapper>
       </ProtectedRoute>
     ),
     errorElement: <ErrorBoundary />,
   },
   {
-    path: '/header',
+    path: "/header",
     element: (
       <ProtectedRoute>
-        <Suspense fallback={<LoadingFallback />}>
-          <RemoteHeader />
-        </Suspense>
+        <SuspenseWrapper>
+          <HeaderWrapper />
+        </SuspenseWrapper>
       </ProtectedRoute>
     ),
     errorElement: <ErrorBoundary />,
   },
   {
-    path: '*',
+    path: "*",
     element: <ErrorBoundary />,
   },
 ]);

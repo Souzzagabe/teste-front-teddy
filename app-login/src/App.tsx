@@ -1,12 +1,13 @@
-// remote-app/src/components/Header.tsx
-import React from 'react';
+// app-login/src/App.tsx
+import type { FC } from "react";
+import LoginForm from "./components/LoginForm";
 
-const Login: React.FC = () => {
-  return (
-    <header className="bg-gray-800 text-white p-4">
-      <h1 className="text-2xl">Login</h1>
-    </header>
-  );
+interface AppProps {
+  onLoginSuccess?: () => void;
+}
+
+const App: FC<AppProps> = ({ onLoginSuccess }) => {
+  return <LoginForm onLoginSuccess={onLoginSuccess} />;
 };
 
-export default Login;
+export default App;
