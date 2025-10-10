@@ -15,23 +15,34 @@ interface LoginFormProps {
 export default function LoginForm({ onLoginSuccess }: LoginFormProps) {
   const [name, setName] = useState("");
 
+  const [error, setError] = useState<string | null>(null);
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("handleSubmit chamado", name);
+    setIsSubmitting(true);
 
     if (!name.trim()) {
-      alert("Por favor, digite o seu nome");
+      setError("O nome é obrigatório.");
+      setIsSubmitting(false);
       return;
     }
 
-    localStorage.setItem("token", "fake-token");
-    console.log("token setado no localStorage: fake-token");
+    setError(null);
 
-    if (onLoginSuccess) {
-      console.log("Chamando callback onLoginSuccess");
-      onLoginSuccess();
-    } else {
-      console.warn("Callback onLoginSuccess não definido");
+    try {
+      localStorage.setItem("userName", name);
+      localStorage.setItem("token", "fake-token");
+
+      if (onLoginSuccess) {
+        onLoginSuccess();
+      }
+    } catch (err) {
+      setError("Não foi possível salvar os dados. Tente novamente.");
+      console.error("Erro ao acessar o localStorage:", err);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -66,10 +77,13 @@ export default function LoginForm({ onLoginSuccess }: LoginFormProps) {
               fullWidth
               value={name}
               onChange={(e) => setName(e.target.value)}
+              error={!!error}
+              helperText={error}
             />
             <Button
               type="submit"
               variant="contained"
+              disabled={isSubmitting}
               sx={{
                 backgroundColor: "#f37021",
                 ":hover": { backgroundColor: "#e65b00" },
@@ -77,7 +91,7 @@ export default function LoginForm({ onLoginSuccess }: LoginFormProps) {
               }}
               fullWidth
             >
-              Entrar
+              {isSubmitting ? "Entrando..." : "Entrar"}
             </Button>
           </Stack>
         </form>

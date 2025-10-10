@@ -1,12 +1,12 @@
-// remote-app/src/components/Header.tsx
-import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
+import HomePage from './components/HomePage';
 
-const Listing: React.FC = () => {
+function App() {
   return (
-    <header className="bg-gray-800 text-white p-4">
-      <h1 className="text-2xl">lista</h1>
-    </header>
+    <BrowserRouter>
+     <HomePage />
+    </BrowserRouter>
   );
-};
+}
 
-export default Listing;
+export default App;
