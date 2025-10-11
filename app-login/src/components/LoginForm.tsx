@@ -14,17 +14,29 @@ interface LoginFormProps {
 
 export default function LoginForm({ onLoginSuccess }: LoginFormProps) {
   const [name, setName] = useState("");
-
   const [error, setError] = useState<string | null>(null);
-
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    if (!name.trim()) {
+    const trimmedName = name.trim();
+
+    if (!trimmedName) {
       setError("O nome é obrigatório.");
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (/\d/.test(trimmedName)) {
+      setError("O nome não pode conter números.");
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (trimmedName.length < 3) {
+      setError("O nome deve ter pelo menos 3 letras.");
       setIsSubmitting(false);
       return;
     }
@@ -32,7 +44,7 @@ export default function LoginForm({ onLoginSuccess }: LoginFormProps) {
     setError(null);
 
     try {
-      localStorage.setItem("userName", name);
+      localStorage.setItem("userName", trimmedName);
       localStorage.setItem("token", "fake-token");
 
       if (onLoginSuccess) {

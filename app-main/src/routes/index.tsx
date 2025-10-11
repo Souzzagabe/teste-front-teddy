@@ -1,7 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import LoginWrapper from "../components/wrappers/LoginWrapper";
 import ProtectedRoute from "../components/wrappers/ProtectedRouteWrapper";
-import { SuspenseWrapper } from "../components/wrappers/SuspenseWrapper";
 import ErrorBoundary from "./ErrorBoundary";
 import { lazy } from "react";
 
@@ -17,9 +16,7 @@ const router = createBrowserRouter([
     path: "/home",
     element: (
       <ProtectedRoute>
-        <SuspenseWrapper>
           <ListingWrapper />
-        </SuspenseWrapper>
       </ProtectedRoute>
     ),
     errorElement: <ErrorBoundary />,

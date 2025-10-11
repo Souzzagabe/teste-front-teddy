@@ -1,7 +1,7 @@
 import { lazy } from "react";
 import type { FC } from "react";
 import { useNavigate } from "react-router-dom";
-import { SuspenseWrapper } from "../wrappers/SuspenseWrapper";
+
 
 interface RemoteLoginProps {
   onLoginSuccess?: () => void;
@@ -17,9 +17,9 @@ const LoginWrapper: FC = () => {
   };
 
   return (
-    <SuspenseWrapper>
+
       <RemoteLogin onLoginSuccess={handleLoginSuccess} />
-    </SuspenseWrapper>
+
   );
 };
 

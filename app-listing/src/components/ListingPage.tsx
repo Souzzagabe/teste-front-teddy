@@ -5,7 +5,7 @@ import Header from "./Header";
 import ClientsPage from "./ClientsPage";
 import SelectedClientsPage from "./SelectedClientsPage";
 import type { Client } from "../types";
-import service from "../service/service"; // ✅ importa a instância do service
+import service from "../service/service";
 
 const ListingPage = () => {
   const [currentTab, setCurrentTab] = useState(0);
@@ -38,34 +38,31 @@ const ListingPage = () => {
     setCurrentTab(newValue);
   };
 
-useEffect(() => {
-  const fetchClients = async () => {
-    try {
-      setLoading(true);
+  useEffect(() => {
+    const fetchClients = async () => {
+      try {
+        setLoading(true);
 
-      const response = await service.chargeAmount(1, 50);
+        const response = await service.chargeAmount(1, 50);
+        const rawData = response.data.clients;
 
-      // 🔑 acessar o array correto
-      const rawData = response.data.clients;
+        const clients: Client[] = rawData.map((item: any) => ({
+          id: item.id,
+          name: item.name ?? "Sem nome",
+          salary: item.salary ?? 0,
+          companyValuation: item.companyValuation ?? 0,
+        }));
 
-      const clients: Client[] = rawData.map((item: any) => ({
-        id: item.id,
-        name: item.name ?? "Sem nome",
-        salary: item.salary ?? 0,
-        company: item.companyValuation ?? "Empresa Desconhecida",
-      }));
+        setAllClients(clients);
+      } catch (error) {
+        console.error("❌ Erro ao carregar clientes:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-      setAllClients(clients);
-    } catch (error) {
-      console.error("❌ Erro ao carregar clientes:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  fetchClients();
-}, [currentTab]);
-
+    fetchClients();
+  }, [currentTab]);
 
   const availableClients = allClients.filter(
     (client) => !selectedIds.includes(client.id)
@@ -74,68 +71,68 @@ useEffect(() => {
     selectedIds.includes(client.id)
   );
 
-return (
-  <Box
-    sx={{
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      width: "100%",
-      minHeight: "100vh",
-      backgroundColor: "#f9f9f9",
-    }}
-  >
+  return (
     <Box
       sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
         width: "100%",
-        maxWidth: 1200,
-        px: 2,
+        minHeight: "100vh",
+        backgroundColor: "#f9f9f9",
       }}
     >
-      <Header currentTab={currentTab} onTabChange={handleTabChange} />
-
       <Box
         sx={{
-          mt: "100px",
-          minHeight: "calc(100vh - 100px)",
+          width: "100%",
+          maxWidth: 1200,
+          px: 2,
         }}
       >
-        {loading ? (
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              height: "calc(100vh - 100px)",
-            }}
-          >
-            <CircularProgress
-              sx={{ color: "#f37021" }}
-              size={40}
-              thickness={5}
-            />
-          </Box>
-        ) : (
-          <>
-            {currentTab === 0 && (
-              <ClientsPage
-                clients={availableClients}
-                onSelect={handleSelectClient}
-              />
-            )}
+        <Header currentTab={currentTab} onTabChange={handleTabChange} />
 
-            {currentTab === 1 && (
-              <SelectedClientsPage
-                selectedClients={selectedClients}
-                onClear={handleClearSelected}
+        <Box
+          sx={{
+            mt: "100px",
+            minHeight: "calc(100vh - 100px)",
+          }}
+        >
+          {loading ? (
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "calc(100vh - 100px)",
+              }}
+            >
+              <CircularProgress
+                sx={{ color: "#f37021" }}
+                size={40}
+                thickness={5}
               />
-            )}
-          </>
-        )}
+            </Box>
+          ) : (
+            <>
+              {currentTab === 0 && (
+                <ClientsPage
+                  clients={availableClients}
+                  onSelect={handleSelectClient}
+                />
+              )}
+
+              {currentTab === 1 && (
+                <SelectedClientsPage
+                  selectedClients={selectedClients}
+                  onClear={handleClearSelected}
+                />
+              )}
+            </>
+          )}
+        </Box>
       </Box>
     </Box>
-  </Box>
-);
-}
+  );
+};
 
 export default ListingPage;

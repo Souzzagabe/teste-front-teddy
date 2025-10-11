@@ -1,21 +1,3 @@
-interface Client {
-  id: number;
-  name: string;
-  salary: number;
-  company: string;
-}
-
-export const mockClients: Client[] = [];
-
-for (let i = 0; i < 50; i++) {
-  mockClients.push({
-    id: i + 1,
-    name: `Eduardo ${i + 1}`,
-    salary: 3500 + (i * 100),
-    company: `Empresa ${String.fromCharCode(65 + (i % 26))}`,
-  });
-}
-
 import axios from "axios";
 
 const API_BASE = import.meta.env.VITE_API_BASE;

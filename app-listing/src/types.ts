@@ -2,7 +2,8 @@ export interface Client {
   id: number;
   name: string;
   salary: number;
-  company: string;
+  company: string;
+  companyValuation: number;
 }
 
 export interface ClientsPageProps {
@@ -10,7 +11,26 @@ export interface ClientsPageProps {
   onSelect: (clientId: number) => void;
 }
 
+export interface SelectedClientsPageProps {
+  selectedClients: Client[];
+  onClear: (idsToRemove: number[]) => void;
+  onSelect?: (clientId: number) => void;
+}
+
 export interface HeaderProps {
   currentTab: number;
   onTabChange: (event: React.SyntheticEvent | null, newValue: number) => void;
+}
+
+export interface ClientData {
+  name: string;
+  salary: string;
+  companyValue: string;
+}
+
+export interface ClientModalProps {
+  open: boolean;
+  handleClose: () => void;
+  onSubmit: (data: ClientData) => void;
+  initialData?: Partial<ClientData>;
 }

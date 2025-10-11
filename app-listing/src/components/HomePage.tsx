@@ -2,8 +2,6 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box, CircularProgress, Typography } from "@mui/material";
 import Header from "./Header";
-// import ClientsPage from "./ClientsPage";
-// import SelectedClientsPage from "./SelectedClientsPage";
 
 const HomePage = () => {
   const [currentTab, setCurrentTab] = useState(0);
