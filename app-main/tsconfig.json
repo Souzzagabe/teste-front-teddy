@@ -1,11 +1,21 @@
 {
-    "files": [],
-    "references": [
-      { "path": "./tsconfig.app.json" },
-      { "path": "./tsconfig.node.json" }
-    ],
-    "compilerOptions": {
-      "resolveJsonModule": true,
-      "esModuleInterop": true,
-  }
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "types": ["node", "jest", "@testing-library/jest-dom"]
+  },
+  "include": ["src", "**/*.spec.ts", "**/*.spec.tsx"],
+  "exclude": ["node_modules"]
 }

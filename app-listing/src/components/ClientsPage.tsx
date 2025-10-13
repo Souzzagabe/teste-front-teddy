@@ -15,7 +15,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import type { ClientsPageProps } from "../types";
 import { Skeleton } from "@mui/material";
 import { ClientModal } from "../components/modal/Modal";
-import Service from "../service/service";
+import Service from "../service/Service";
 import { DeleteClientModal } from "../components/modal/ModalDelete";
 
 const ClientsPage: React.FC<ClientsPageProps> = ({ clients, onSelect }) => {
@@ -239,12 +239,11 @@ const ClientsPage: React.FC<ClientsPageProps> = ({ clients, onSelect }) => {
                 </Box>
               </Grid>
             ))
-          : 
-            Array.from({ length: clientsPerPage }).map((_, index) => (
+          : Array.from({ length: clientsPerPage }).map((_, index) => (
               <Grid key={index} size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
                 <Skeleton
                   variant="rectangular"
-                  height={140}
+                  height={146}
                   sx={{ borderRadius: 2, mb: 2 }}
                 />
               </Grid>

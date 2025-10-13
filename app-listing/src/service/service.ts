@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE = import.meta.env.VITE_API_BASE;
+const API_BASE = "https://boasorte.teddybackoffice.com.br"
 
 class Service {
   chargeAmount(page: number, limit: number): Promise<any> {

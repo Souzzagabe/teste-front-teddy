@@ -24,6 +24,7 @@ import type { HeaderProps } from "../types";
 import HomeIcon from "@mui/icons-material/Home";
 import PersonIcon from "@mui/icons-material/Person";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
+import CloseIcon from "@mui/icons-material/Close";
 
 const Header: React.FC<HeaderProps> = ({ currentTab, onTabChange }) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -60,9 +61,9 @@ const Header: React.FC<HeaderProps> = ({ currentTab, onTabChange }) => {
                 edge="start"
                 color="inherit"
                 aria-label="menu"
-                onClick={() => setDrawerOpen(true)}
+                onClick={() => setDrawerOpen(!drawerOpen)} // alterna o estado
               >
-                <MenuIcon />
+                {drawerOpen ? <CloseIcon /> : <MenuIcon />}
               </IconButton>
             )}
             <Box display="flex" alignItems="center">
@@ -127,6 +128,22 @@ const Header: React.FC<HeaderProps> = ({ currentTab, onTabChange }) => {
           },
         }}
       >
+        {/* Ícone de fechar dentro do Drawer */}
+        {isMobile && (
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "flex-end",
+              width: "100%",
+              pr: 2,
+              mb: 2,
+            }}
+          >
+            <IconButton onClick={() => setDrawerOpen(false)}>
+              <CloseIcon />
+            </IconButton>
+          </Box>
+        )}
 
         <Box
           sx={{

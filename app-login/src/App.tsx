@@ -1,4 +1,3 @@
-// app-login/src/App.tsx
 import type { FC } from "react";
 import LoginForm from "./components/LoginForm";
 

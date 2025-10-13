@@ -34,7 +34,6 @@ const formatCurrency = (value: string) => {
   }).format(Number(numericValue) / 100);
 };
 
-// Função para converter valor formatado para número puro
 const unformatCurrency = (value: string) => value.replace(/\D/g, "");
 
 export const ClientModal: React.FC<ClientModalProps> = ({
@@ -71,7 +70,7 @@ export const ClientModal: React.FC<ClientModalProps> = ({
 
     setErrors(newErrors);
 
-    const hasError = Object.values(newErrors).some((e) => e);
+    const hasError = Object.keys(newErrors).some((key) => (newErrors as any)[key]);
     if (hasError) return;
 
     onSubmit({

@@ -1,0 +1,1 @@
+{"root":["./src/app.tsx","./src/main.tsx","./src/components/wrappers/loginwrapper.tsx","./src/components/wrappers/protectedroutewrapper.tsx","./src/routes/errorboundary.tsx","./src/routes/protectedroute.tsx","./src/routes/index.tsx","./src/types/federation.d.ts"],"version":"5.9.3"}

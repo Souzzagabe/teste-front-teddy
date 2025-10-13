@@ -34,3 +34,7 @@ export interface ClientModalProps {
   onSubmit: (data: ClientData) => void;
   initialData?: Partial<ClientData>;
 }
+
+// src/types/global.d.ts
+// src/types/global.d.ts
+declare var global: typeof globalThis;

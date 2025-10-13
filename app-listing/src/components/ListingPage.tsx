@@ -5,7 +5,7 @@ import Header from "./Header";
 import ClientsPage from "./ClientsPage";
 import SelectedClientsPage from "./SelectedClientsPage";
 import type { Client } from "../types";
-import service from "../service/service";
+import service from "../service/Service";
 
 const ListingPage = () => {
   const [currentTab, setCurrentTab] = useState(0);
