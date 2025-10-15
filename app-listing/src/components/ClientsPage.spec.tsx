@@ -31,7 +31,7 @@ jest.mock("../components/modal/ModalDelete", () => ({
     ) : null,
 }));
 
-jest.mock("../service/service", () => ({
+jest.mock("../service/Service", () => ({
   deleteUser: jest.fn(),
   createUser: jest.fn().mockResolvedValue({ data: { id: 3 } }),
   updateUser: jest.fn().mockResolvedValue({}),
