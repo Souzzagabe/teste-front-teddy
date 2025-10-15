@@ -5,7 +5,7 @@ import Header from "./Header";
 import ClientsPage from "./ClientsPage";
 import SelectedClientsPage from "./SelectedClientsPage";
 import type { Client } from "../types";
-import Service from "../service/Service";
+import service from "../service/service";
 
 const ListingPage = () => {
   const [currentTab, setCurrentTab] = useState(0);
@@ -43,7 +43,7 @@ const ListingPage = () => {
       try {
         setLoading(true);
 
-        const response = await Service.chargeAmount(1, 50);
+        const response = await service.chargeAmount(1, 50);
         const rawData = response.data.clients;
 
         const clients: Client[] = rawData.map((item: any) => ({

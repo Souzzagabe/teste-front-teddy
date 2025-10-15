@@ -15,7 +15,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import type { ClientsPageProps } from "../types";
 import { Skeleton } from "@mui/material";
 import { ClientModal } from "../components/modal/Modal";
-import Service from "../service/Service";
+import service from "../service/service";
 import { DeleteClientModal } from "../components/modal/ModalDelete";
 
 const ClientsPage: React.FC<ClientsPageProps> = ({ clients, onSelect }) => {
@@ -60,7 +60,7 @@ const ClientsPage: React.FC<ClientsPageProps> = ({ clients, onSelect }) => {
   }) => {
     try {
       if (editData?.id) {
-        await Service.updateUser(editData.id, {
+        await service.updateUser(editData.id, {
           name: data.name,
           salary: parseFloat(data.salary),
           companyValuation: parseFloat(data.companyValue),
@@ -80,7 +80,7 @@ const ClientsPage: React.FC<ClientsPageProps> = ({ clients, onSelect }) => {
           )
         );
       } else {
-        const response = await Service.createUser({
+        const response = await service.createUser({
           name: data.name,
           salary: parseFloat(data.salary),
           companyValuation: parseFloat(data.companyValue),
@@ -107,7 +107,7 @@ const ClientsPage: React.FC<ClientsPageProps> = ({ clients, onSelect }) => {
   const handleDeleteClient = async () => {
     if (!clientToDelete) return;
     try {
-      await Service.deleteUser(clientToDelete.id);
+      await service.deleteUser(clientToDelete.id);
 
       setLocalClients((prev) => prev.filter((c) => c.id !== clientToDelete.id));
 

@@ -1,6 +1,6 @@
 import { render, screen, fireEvent, within } from "@testing-library/react";
 import ClientsPage from "./ClientsPage";
-import Service from "../service/Service";
+import service from "../service/service";
 
 jest.mock("../components/modal/Modal", () => ({
   ClientModal: ({ open, handleClose, onSubmit }: any) =>
@@ -31,7 +31,7 @@ jest.mock("../components/modal/ModalDelete", () => ({
     ) : null,
 }));
 
-jest.mock("../service/Service", () => ({
+jest.mock("../service/service", () => ({
   deleteUser: jest.fn(),
   createUser: jest.fn().mockResolvedValue({ data: { id: 3 } }),
   updateUser: jest.fn().mockResolvedValue({}),
@@ -107,7 +107,7 @@ describe("ClientsPage", () => {
 
     const confirmButton = within(modal).getByTestId("confirm-delete");
     fireEvent.click(confirmButton);
-    expect(Service.deleteUser).toHaveBeenCalledWith(1);
+    expect(service.deleteUser).toHaveBeenCalledWith(1);
   });
 
   it("chama onSelect ao clicar no botão de adicionar", () => {
