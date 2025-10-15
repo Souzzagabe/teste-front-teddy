@@ -24,7 +24,6 @@ const style = {
   zIndex: 1500,
 };
 
-// Função para formatar número em moeda brasileira
 const formatCurrency = (value: string) => {
   const numericValue = value.replace(/\D/g, "");
   if (!numericValue) return "";

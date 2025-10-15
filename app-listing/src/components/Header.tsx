@@ -61,7 +61,7 @@ const Header: React.FC<HeaderProps> = ({ currentTab, onTabChange }) => {
                 edge="start"
                 color="inherit"
                 aria-label="menu"
-                onClick={() => setDrawerOpen(!drawerOpen)} // alterna o estado
+                onClick={() => setDrawerOpen(!drawerOpen)}
               >
                 {drawerOpen ? <CloseIcon /> : <MenuIcon />}
               </IconButton>

@@ -32,8 +32,8 @@ describe("ClientModal", () => {
     openModal({
       initialData: {
         name: "Gabriel",
-        salary: "500000",       // 500.000 centavos = R$ 5.000,00
-        companyValue: "1000000",// 1.000.000 centavos = R$ 10.000,00
+        salary: "500000",
+        companyValue: "1000000",
       },
     });
 
@@ -101,7 +101,6 @@ describe("ClientModal", () => {
   it("fecha o modal ao clicar no botão de fechar", () => {
     openModal();
 
-    // Seleciona o botão que contém o CloseIcon (SVG)
     const closeButton = screen
       .getAllByRole("button")
       .find((btn) => btn.querySelector("svg"));

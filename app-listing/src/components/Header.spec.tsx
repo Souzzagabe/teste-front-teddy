@@ -19,7 +19,7 @@ describe("Header component", () => {
   });
 
   it("renders the tabs when not mobile", () => {
-    (useMediaQuery as jest.Mock).mockReturnValue(false); // desktop
+    (useMediaQuery as jest.Mock).mockReturnValue(false);
     render(<Header currentTab={0} onTabChange={onTabChange} />);
 
     expect(screen.getByText("Clientes")).toBeInTheDocument();
@@ -28,7 +28,7 @@ describe("Header component", () => {
   });
 
   it("renders drawer menu when mobile", () => {
-    (useMediaQuery as jest.Mock).mockReturnValue(true); // mobile
+    (useMediaQuery as jest.Mock).mockReturnValue(true);
     render(<Header currentTab={0} onTabChange={onTabChange} />);
 
     const menuButton = screen.getByLabelText("menu");
@@ -41,10 +41,10 @@ describe("Header component", () => {
   });
 
   it("calls onTabChange when drawer item is clicked", () => {
-    (useMediaQuery as jest.Mock).mockReturnValue(true); // mobile
+    (useMediaQuery as jest.Mock).mockReturnValue(true);
     render(<Header currentTab={0} onTabChange={onTabChange} />);
 
-    fireEvent.click(screen.getByLabelText("menu")); // abre o drawer
+    fireEvent.click(screen.getByLabelText("menu"));
     fireEvent.click(screen.getByText("Home"));
 
     expect(onTabChange).toHaveBeenCalledWith(null, 0);

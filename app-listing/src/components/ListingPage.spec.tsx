@@ -1,9 +1,9 @@
 import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 import ListingPage from "./ListingPage";
-import service from "../service/Service";
+import Service from "../service/Service";
 
-jest.mock("../service/service", () => ({
+jest.mock("../service/Service", () => ({
   chargeAmount: jest.fn(),
 }));
 
@@ -43,7 +43,7 @@ describe("ListingPage", () => {
   ];
 
   beforeEach(() => {
-    (service.chargeAmount as jest.Mock).mockResolvedValue({
+    (Service.chargeAmount as jest.Mock).mockResolvedValue({
       data: { clients: mockClients },
     });
     localStorage.clear();

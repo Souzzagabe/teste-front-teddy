@@ -1,0 +1,47 @@
+version: "3.9"
+
+volumes:
+  pnpm-store: {}
+
+services:
+  app-main:
+    build:
+      context: ./app-main
+      dockerfile: Dockerfile.dev
+    working_dir: /app
+    ports:
+      - "3000:5173"
+    volumes:
+      - ./app-main:/app
+      - /app/node_modules
+      - pnpm-store:/root/.local/share/pnpm/store
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+
+  app-login:
+    build:
+      context: ./app-login
+      dockerfile: Dockerfile.dev
+    working_dir: /app
+    ports:
+      - "3001:5173"
+    volumes:
+      - ./app-login:/app
+      - /app/node_modules
+      - pnpm-store:/root/.local/share/pnpm/store
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+
+  app-listing:
+    build:
+      context: ./app-listing
+      dockerfile: Dockerfile.dev
+    working_dir: /app
+    ports:
+      - "3002:5173"
+    volumes:
+      - ./app-listing:/app
+      - /app/node_modules
+      - pnpm-store:/root/.local/share/pnpm/store
+    environment:
+      - CHOKIDAR_USEPOLLING=true

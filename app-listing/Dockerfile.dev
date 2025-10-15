@@ -1,0 +1,31 @@
+# syntax=docker/dockerfile:1.7
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Enable Corepack and prepare pnpm (respects packageManager if present)
+RUN corepack enable && corepack prepare pnpm@latest --activate
+
+# Copy lockfile and package to leverage layer caching when possible
+COPY package.json pnpm-lock.yaml* ./
+
+# Optional: preinstall to warm cache layers (dev bind-mount will overwrite /app)
+RUN --mount=type=cache,target=/root/.local/share/pnpm/store \
+    pnpm install --frozen-lockfile || true
+
+# Copy the rest (in dev, compose bind-mount will override this directory)
+COPY . .
+
+EXPOSE 5173
+
+# Start script: if node_modules is empty (bind-mounted fresh volume), install then run Vite
+RUN printf '#!/bin/sh\nset -e\n' \
+           'if [ ! -f node_modules/.bin/vite ]; then\n' \
+           '  echo "node_modules vazio — instalando dependências...";\n' \
+           '  pnpm install --frozen-lockfile;\n' \
+           'fi\n' \
+           'exec pnpm dev -- --host 0.0.0.0\n' \
+           > /usr/local/bin/start.sh \
+    && chmod +x /usr/local/bin/start.sh
+
+CMD ["/usr/local/bin/start.sh"]
