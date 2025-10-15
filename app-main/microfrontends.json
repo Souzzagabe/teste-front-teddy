@@ -1,4 +1,5 @@
 {
+  "applications": {},
   "teste-front-teddy-login": {
     "routing": [{ "paths": ["/login"] }]
   },
