@@ -1,0 +1,20 @@
+{
+  "$schema": "https://openapi.vercel.sh/microfrontends.json",
+  "applications": {
+    "teste-front-teddy": {
+      "routing": [
+        { "paths": [] }
+      ]
+    },
+    "teste-front-teddy-login": {
+      "routing": [
+        { "paths": ["/login", "/login/:path*"] }
+      ]
+    },
+    "teste-front-teddy-listing": {
+      "routing": [
+        { "paths": ["/home", "/"] }
+      ]
+    }
+  }
+}
