@@ -101,7 +101,6 @@ describe("ClientsPage", () => {
       );
     fireEvent.click(deleteButtons[0]);
 
-    // Espera o modal aparecer
     const modal = await screen.findByTestId("delete-modal");
     expect(modal).toBeInTheDocument();
     expect(within(modal).getByText("Gabriel")).toBeInTheDocument();

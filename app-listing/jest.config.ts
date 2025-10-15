@@ -16,6 +16,9 @@ const config: Config = {
   moduleNameMapper: {
     "\\.(jpg|jpeg|png|gif|svg)$": "<rootDir>/__mocks__/fileMock.js",
   },
+
+  // 👇 Adicione esta linha
+  moduleDirectories: ["node_modules", "src"],
 };
 
 export default config;
