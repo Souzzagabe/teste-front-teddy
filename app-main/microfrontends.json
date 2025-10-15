@@ -1,10 +1,11 @@
 {
-  "applications": {},
-  "teste-front-teddy": {},
-  "teste-front-teddy-login": {
-    "routing": [{ "paths": ["/login"] }]
-  },
-  "teste-front-teddy-listing": {
-    "routing": [{ "paths": ["/home"] }]
+  "applications": {
+    "teste-front-teddy": {},
+    "teste-front-teddy-login": {
+      "routing": [{ "paths": ["/login"] }]
+    },
+    "teste-front-teddy-listing": {
+      "routing": [{ "paths": ["/home"] }]
+    }
   }
 }
