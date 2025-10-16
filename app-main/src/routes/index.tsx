@@ -5,7 +5,6 @@ import ErrorBoundary from "./ErrorBoundary";
 import { lazy } from "react";
 
 const ListingWrapper = lazy(() => import("remote_listing/Listing"));
-
 const router = createBrowserRouter([
   {
     path: "/login",
@@ -16,7 +15,7 @@ const router = createBrowserRouter([
     path: "/home",
     element: (
       <ProtectedRoute>
-          <ListingWrapper />
+        <ListingWrapper />
       </ProtectedRoute>
     ),
     errorElement: <ErrorBoundary />,
