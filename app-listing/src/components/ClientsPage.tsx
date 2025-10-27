@@ -17,15 +17,13 @@ import { Skeleton } from "@mui/material";
 import { ClientModal } from "../components/modal/Modal";
 import service from "../service/service";
 import { DeleteClientModal } from "../components/modal/ModalDelete";
-import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
-import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 
 const ClientsPage: React.FC<ClientsPageProps> = ({ clients, onSelect }) => {
   const [page, setPage] = React.useState(1);
   const [localClients, setLocalClients] = React.useState(clients);
   const [openModal, setOpenModal] = React.useState(false);
   const [editData, setEditData] = React.useState<any>(null);
-  const [clientsPerPage] = React.useState(16);
+  const [clientsPerPage, setClientsPerPage] = React.useState(16);
   const [deleteModalOpen, setDeleteModalOpen] = React.useState(false);
   const [clientToDelete, setClientToDelete] = React.useState<{
     id: number;
@@ -144,30 +142,33 @@ const ClientsPage: React.FC<ClientsPageProps> = ({ clients, onSelect }) => {
             <Typography variant="body1" fontWeight={500}>
               Clientes por página:
             </Typography>
-            <Select
-              size="small"
-              value={sortOrder}
-              onChange={(e) => setSortOrder(e.target.value as "asc" | "desc")}
-              sx={{
-                height: 36,
-                fontSize: 14,
-                minWidth: 100,
-                "& .MuiOutlinedInput-notchedOutline": { borderColor: "#ccc" },
-                "&:hover .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "#f37021",
-                },
-                "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                  borderColor: "#f37021",
-                },
-              }}
-            >
-              <MenuItem value="asc">
-                <ArrowUpwardIcon fontSize="small" sx={{ mr: 1 }} /> A → Z
-              </MenuItem>
-              <MenuItem value="desc">
-                <ArrowDownwardIcon fontSize="small" sx={{ mr: 1 }} /> Z → A
-              </MenuItem>
-            </Select>
+          <Select
+            size="small"
+            value={clientsPerPage}
+            onChange={(e) => {
+              setClientsPerPage(Number(e.target.value));
+              setPage(1);
+            }}
+            sx={{
+              height: 36,
+              fontSize: 14,
+              minWidth: 72,
+              "& .MuiOutlinedInput-notchedOutline": {
+                borderColor: "#ccc",
+              },
+              "&:hover .MuiOutlinedInput-notchedOutline": {
+                borderColor: "#f37021",
+              },
+              "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                borderColor: "#f37021",
+              },
+            }}
+          >
+            <MenuItem value={8}>8</MenuItem>
+            <MenuItem value={16}>16</MenuItem>
+            <MenuItem value={24}>24</MenuItem>
+            <MenuItem value={32}>32</MenuItem>
+          </Select>
           </Box>
 
           <Box display="flex" alignItems="center" gap={1}>
