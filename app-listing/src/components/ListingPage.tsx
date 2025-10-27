@@ -21,9 +21,10 @@ const ListingPage = () => {
     }
   };
 
-  const handleClearSelected = () => {
-    setSelectedIds([]);
-  };
+const handleClearSelected = (idsToRemove: number[]) => {
+  setSelectedIds((prev) => prev.filter((id) => !idsToRemove.includes(id)));
+};
+
 
   const handleTabChange = (
     _event: React.SyntheticEvent | null,
@@ -72,66 +73,67 @@ const ListingPage = () => {
   );
 
   return (
+<Box
+  sx={{
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    width: { xs: "95%", sm: "98%", md: "100%" },
+    minHeight: "100vh",
+    backgroundColor: "#f9f9f9",
+    overflowX: "hidden",
+  }}
+>
+  <Box
+    sx={{
+      width: "100%",
+      maxWidth: 1200,
+      px: { xs: 1, sm: 2, md: 3 },
+      ".MuiTypography-body1": {
+        fontSize: { xs: "0.85rem", sm: "0.9rem", md: "1rem" },
+      },
+    }}
+  >
+    <Header currentTab={currentTab} onTabChange={handleTabChange} />
+
     <Box
       sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        width: "100%",
-        minHeight: "100vh",
-        backgroundColor: "#f9f9f9",
+        mt: "100px",
+        minHeight: "calc(100vh - 100px)",
       }}
     >
-      <Box
-        sx={{
-          width: "100%",
-          maxWidth: 1200,
-          px: 2,
-        }}
-      >
-        <Header currentTab={currentTab} onTabChange={handleTabChange} />
-
+      {loading ? (
         <Box
           sx={{
-            mt: "100px",
-            minHeight: "calc(100vh - 100px)",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "calc(100vh - 100px)",
           }}
         >
-          {loading ? (
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                height: "calc(100vh - 100px)",
-              }}
-            >
-              <CircularProgress
-                sx={{ color: "#f37021" }}
-                size={40}
-                thickness={5}
-              />
-            </Box>
-          ) : (
-            <>
-              {currentTab === 0 && (
-                <ClientsPage
-                  clients={availableClients}
-                  onSelect={handleSelectClient}
-                />
-              )}
-
-              {currentTab === 1 && (
-                <SelectedClientsPage
-                  selectedClients={selectedClients}
-                  onClear={handleClearSelected}
-                />
-              )}
-            </>
-          )}
+          <CircularProgress sx={{ color: "#f37021" }} size={40} thickness={5} />
         </Box>
-      </Box>
+      ) : (
+        <>
+          {currentTab === 0 && (
+            <ClientsPage
+              clients={availableClients}
+              onSelect={handleSelectClient}
+            />
+          )}
+
+          {currentTab === 1 && (
+            <SelectedClientsPage
+              selectedClients={selectedClients}
+              onClear={handleClearSelected}
+            />
+          )}
+        </>
+      )}
     </Box>
+  </Box>
+</Box>
+
   );
 };
 

@@ -3,7 +3,6 @@ import { Box, Typography, Grid, IconButton } from "@mui/material";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import type { SelectedClientsPageProps } from "../types";
 
-
 const SelectedClientsPage: React.FC<SelectedClientsPageProps> = ({
   selectedClients,
   onClear,
@@ -32,8 +31,22 @@ const SelectedClientsPage: React.FC<SelectedClientsPageProps> = ({
     }).format(value);
 
   return (
-    <Box sx={{ width: "100%", p: 3, backgroundColor: "#f9f9f9" }}>
-      <Typography variant="h6" component="h2" mb={3}>
+    <Box
+      sx={{
+        width: "100%",
+        maxWidth: "100%",
+        boxSizing: "border-box",
+        p: { xs: 1.5, sm: 3 },
+        backgroundColor: "#f9f9f9",
+        overflowX: "hidden",
+      }}
+    >
+      <Typography
+        variant="h6"
+        component="h2"
+        mb={3}
+        sx={{ fontSize: { xs: "0.9rem", sm: "1rem", md: "1.125rem" } }}
+      >
         <strong>Clientes selecionados: {selectedClients.length}</strong>
       </Typography>
 
@@ -44,7 +57,6 @@ const SelectedClientsPage: React.FC<SelectedClientsPageProps> = ({
 
             return (
               <Grid key={index} size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
-                {" "}
                 <Box
                   sx={{
                     position: "relative",
@@ -69,13 +81,25 @@ const SelectedClientsPage: React.FC<SelectedClientsPageProps> = ({
                   }}
                 >
                   <Box>
-                    <Typography variant="subtitle1" fontWeight="bold" mb={0.5}>
+                    <Typography
+                      variant="subtitle1"
+                      fontWeight="bold"
+                      mb={0.5}
+                      sx={{ fontSize: { xs: "0.85rem", sm: "1rem", md: "1.125rem" } }}
+                    >
                       {client.name}
                     </Typography>
-                    <Typography variant="body2" mb={0.5}>
+                    <Typography
+                      variant="body2"
+                      mb={0.5}
+                      sx={{ fontSize: { xs: "0.75rem", sm: "0.875rem", md: "1rem" } }}
+                    >
                       Salário: {formatCurrency(client.salary)}
                     </Typography>
-                    <Typography variant="body2">
+                    <Typography
+                      variant="body2"
+                      sx={{ fontSize: { xs: "0.75rem", sm: "0.875rem", md: "1rem" } }}
+                    >
                       Empresa: {client.companyValuation}
                     </Typography>
                   </Box>
@@ -99,7 +123,6 @@ const SelectedClientsPage: React.FC<SelectedClientsPageProps> = ({
           })
         ) : (
           <Grid size={{ xs: 12 }}>
-            {" "}
             <Box
               sx={{
                 p: 4,
