@@ -23,7 +23,6 @@ const ClientsPage: React.FC<ClientsPageProps> = ({ clients, onSelect }) => {
   const [localClients, setLocalClients] = React.useState(clients);
   const [openModal, setOpenModal] = React.useState(false);
   const [editData, setEditData] = React.useState<any>(null);
-  const [clientsPerPage, setClientsPerPage] = React.useState(16);
   const [deleteModalOpen, setDeleteModalOpen] = React.useState(false);
   const [clientToDelete, setClientToDelete] = React.useState<{
     id: number;
@@ -31,6 +30,11 @@ const ClientsPage: React.FC<ClientsPageProps> = ({ clients, onSelect }) => {
   } | null>(null);
 
   const [sortOrder, setSortOrder] = React.useState<"asc" | "desc">("asc");
+
+  const [clientsPerPage, setClientsPerPage] = React.useState(() => {
+    const saved = localStorage.getItem("clientsPerPage");
+    return saved ? Number(saved) : 16;
+  });
 
   useEffect(() => {
     setLocalClients(clients);
@@ -142,33 +146,35 @@ const ClientsPage: React.FC<ClientsPageProps> = ({ clients, onSelect }) => {
             <Typography variant="body1" fontWeight={500}>
               Clientes por página:
             </Typography>
-          <Select
-            size="small"
-            value={clientsPerPage}
-            onChange={(e) => {
-              setClientsPerPage(Number(e.target.value));
-              setPage(1);
-            }}
-            sx={{
-              height: 36,
-              fontSize: 14,
-              minWidth: 72,
-              "& .MuiOutlinedInput-notchedOutline": {
-                borderColor: "#ccc",
-              },
-              "&:hover .MuiOutlinedInput-notchedOutline": {
-                borderColor: "#f37021",
-              },
-              "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                borderColor: "#f37021",
-              },
-            }}
-          >
-            <MenuItem value={8}>8</MenuItem>
-            <MenuItem value={16}>16</MenuItem>
-            <MenuItem value={24}>24</MenuItem>
-            <MenuItem value={32}>32</MenuItem>
-          </Select>
+            <Select
+              size="small"
+              value={clientsPerPage}
+              onChange={(e) => {
+                const value = Number(e.target.value);
+                setClientsPerPage(value);
+                localStorage.setItem("clientsPerPage", value.toString()); // ✅ salva
+                setPage(1);
+              }}
+              sx={{
+                height: 36,
+                fontSize: 14,
+                minWidth: 72,
+                "& .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "#ccc",
+                },
+                "&:hover .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "#f37021",
+                },
+                "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "#f37021",
+                },
+              }}
+            >
+              <MenuItem value={8}>8</MenuItem>
+              <MenuItem value={16}>16</MenuItem>
+              <MenuItem value={24}>24</MenuItem>
+              <MenuItem value={32}>32</MenuItem>
+            </Select>
           </Box>
 
           <Box display="flex" alignItems="center" gap={1}>

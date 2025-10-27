@@ -78,7 +78,7 @@ const handleClearSelected = (idsToRemove: number[]) => {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    width: { xs: "95%", sm: "98%", md: "100%" },
+    width: { xs: "95%", sm: "100%", md: "100%" },
     minHeight: "100vh",
     backgroundColor: "#f9f9f9",
     overflowX: "hidden",
