@@ -1,5 +1,5 @@
 // theme.ts
-import { createTheme } from "@mui/material/styles";
+import { createTheme } from '@mui/material/styles';
 
 const theme = createTheme({
   components: {
@@ -30,7 +30,6 @@ const theme = createTheme({
         @media (max-width: 480px) {
           html, body, #root {
             width: 102% !important;
-                overflow-x: hidden !important;
           }
         }
 
