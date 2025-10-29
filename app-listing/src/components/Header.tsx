@@ -134,7 +134,6 @@ const Header: React.FC<HeaderProps> = ({ currentTab, onTabChange }) => {
           },
         }}
       >
-        {/* Ícone de fechar dentro do Drawer */}
         {isMobile && (
           <Box
             sx={{
