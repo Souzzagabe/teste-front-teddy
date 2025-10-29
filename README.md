@@ -6,6 +6,8 @@ Este projeto é estruturado em **Micro-Frontends (MF)** e possui três aplicaç�
 
 Clone o repositório do projeto para sua máquina.
 
+-Entre na branch main
+
 2. **Instale as dependências**:
 
 Vá para cada micro-frontend e execute `pnpm install`:
@@ -25,3 +27,8 @@ Inicie cada micro-frontend individualmente com `pnpm run serve-mf`, começando p
 4. **Acesse a aplicação**:
 
 Após iniciar todos os micro-frontends, abra seu navegador e acesse `http://localhost:5000/login`.
+
+
+5.deploy:
+
+- https://teste-front-teddy.vercel.app/login
