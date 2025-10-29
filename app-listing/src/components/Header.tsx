@@ -28,9 +28,15 @@ import CloseIcon from "@mui/icons-material/Close";
 
 const Header: React.FC<HeaderProps> = ({ currentTab, onTabChange }) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const userName = localStorage.getItem("userName") || "Usuário";
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const rawUserName = localStorage.getItem("userName") || "Usuário";
+
+  const limitText = (text: string, max: number) => {
+    return text.length > max ? text.substring(0, max) + "..." : text;
+  };
+
+  const userName = limitText(rawUserName, 20);
 
   const handleMenuClick = (tabIndex: number) => {
     setDrawerOpen(false);

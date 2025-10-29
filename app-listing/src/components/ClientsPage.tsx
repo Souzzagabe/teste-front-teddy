@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   Box,
   Typography,
@@ -19,17 +19,17 @@ import service from "../service/service";
 import { DeleteClientModal } from "../components/modal/ModalDelete";
 
 const ClientsPage: React.FC<ClientsPageProps> = ({ clients, onSelect }) => {
-  const [page, setPage] = React.useState(1);
-  const [localClients, setLocalClients] = React.useState(clients);
-  const [openModal, setOpenModal] = React.useState(false);
-  const [editData, setEditData] = React.useState<any>(null);
-  const [deleteModalOpen, setDeleteModalOpen] = React.useState(false);
-  const [clientToDelete, setClientToDelete] = React.useState<{
+  const [page, setPage] = useState(1);
+  const [localClients, setLocalClients] = useState(clients);
+  const [openModal, setOpenModal] = useState(false);
+  const [editData, setEditData] = useState<any>(null);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [clientToDelete, setClientToDelete] = useState<{
     id: number;
     name: string;
   } | null>(null);
 
-  const [sortOrder, setSortOrder] = React.useState<"asc" | "desc">("asc");
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
 
   const [clientsPerPage, setClientsPerPage] = React.useState(() => {
     const saved = localStorage.getItem("clientsPerPage");
@@ -138,7 +138,7 @@ const ClientsPage: React.FC<ClientsPageProps> = ({ clients, onSelect }) => {
         gap={2}
       >
         <Typography variant="body1" fontWeight={500}>
-          <strong>{clients.length} clientes encontrados:</strong>
+          <strong>{localClients.length} clientes encontrados:</strong>
         </Typography>
 
         <Box display="flex" alignItems="center" gap={2} flexWrap="wrap">
@@ -152,7 +152,7 @@ const ClientsPage: React.FC<ClientsPageProps> = ({ clients, onSelect }) => {
               onChange={(e) => {
                 const value = Number(e.target.value);
                 setClientsPerPage(value);
-                localStorage.setItem("clientsPerPage", value.toString()); // ✅ salva
+                localStorage.setItem("clientsPerPage", value.toString());
                 setPage(1);
               }}
               sx={{
