@@ -110,7 +110,15 @@ const Header: React.FC<HeaderProps> = ({ currentTab, onTabChange }) => {
               </Tabs>
 
               <Box sx={{ position: "absolute", right: 99 }}>
-                <Typography variant="body2">
+                <Typography
+                  variant="body2"
+                  sx={{
+                    maxWidth: "200px",
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                  }}
+                >
                   Olá, <strong>{userName}</strong>!
                 </Typography>
               </Box>
