@@ -1,5 +1,5 @@
-import { Modal, Box, Typography, Button, IconButton } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
+import { Modal, Box, Typography, Button, IconButton } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 
 interface DeleteClientModalProps {
   open: boolean;
@@ -9,23 +9,23 @@ interface DeleteClientModalProps {
 }
 
 const style = {
-  position: 'absolute' as const,
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
+  position: "absolute" as const,
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
   width: 400,
-  bgcolor: 'background.paper',
+  bgcolor: "background.paper",
   borderRadius: 2,
   boxShadow: 24,
-  p: 4,
-  textAlign: 'center'
+  p: { xs: 2, sm: 4 },
+  textAlign: "center",
 };
 
 export const DeleteClientModal: React.FC<DeleteClientModalProps> = ({
   open,
   onClose,
   onConfirm,
-  clientName
+  clientName,
 }) => {
   return (
     <Modal open={open} onClose={onClose}>
@@ -44,7 +44,10 @@ export const DeleteClientModal: React.FC<DeleteClientModalProps> = ({
         <Button
           variant="contained"
           fullWidth
-          sx={{ backgroundColor: '#F26522', '&:hover': { backgroundColor: '#d6551d' } }}
+          sx={{
+            backgroundColor: "#F26522",
+            "&:hover": { backgroundColor: "#d6551d" },
+          }}
           onClick={onConfirm}
         >
           Excluir cliente

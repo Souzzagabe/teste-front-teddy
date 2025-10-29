@@ -9,6 +9,7 @@ export interface Client {
 export interface ClientsPageProps {
   clients: Client[];
   onSelect: (clientId: number) => void;
+  sx?: object;
 }
 
 export interface SelectedClientsPageProps {

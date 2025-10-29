@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   Box,
   Typography,
@@ -19,26 +19,26 @@ import service from "../service/service";
 import { DeleteClientModal } from "../components/modal/ModalDelete";
 
 const ClientsPage: React.FC<ClientsPageProps> = ({ clients, onSelect }) => {
-  const [page, setPage] = React.useState(1);
-  const [localClients, setLocalClients] = React.useState(clients);
-  const [openModal, setOpenModal] = React.useState(false);
-  const [editData, setEditData] = React.useState<any>(null);
-  const [clientsPerPage, setClientsPerPage] = React.useState(16);
-  const [deleteModalOpen, setDeleteModalOpen] = React.useState(false);
-  const [clientToDelete, setClientToDelete] = React.useState<{
+  const [page, setPage] = useState(1);
+  const [localClients, setLocalClients] = useState(clients);
+  const [openModal, setOpenModal] = useState(false);
+  const [editData, setEditData] = useState<any>(null);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [clientToDelete, setClientToDelete] = useState<{
     id: number;
     name: string;
   } | null>(null);
 
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
+
+  const [clientsPerPage, setClientsPerPage] = React.useState(() => {
+    const saved = localStorage.getItem("clientsPerPage");
+    return saved ? Number(saved) : 16;
+  });
+
   useEffect(() => {
     setLocalClients(clients);
   }, [clients]);
-
-  const totalPages = Math.ceil(clients.length / clientsPerPage);
-  const clientsOnPage = localClients.slice(
-    (page - 1) * clientsPerPage,
-    page * clientsPerPage
-  );
 
   const handlePageChange = (
     _event: React.ChangeEvent<unknown>,
@@ -108,15 +108,24 @@ const ClientsPage: React.FC<ClientsPageProps> = ({ clients, onSelect }) => {
     if (!clientToDelete) return;
     try {
       await service.deleteUser(clientToDelete.id);
-
       setLocalClients((prev) => prev.filter((c) => c.id !== clientToDelete.id));
-
       setDeleteModalOpen(false);
       setClientToDelete(null);
     } catch (error) {
       console.error("Erro ao excluir cliente:", error);
     }
   };
+
+  const sortedClients = [...localClients].sort((a, b) => {
+    if (sortOrder === "asc") return a.name.localeCompare(b.name);
+    return b.name.localeCompare(a.name);
+  });
+
+  const totalPages = Math.ceil(sortedClients.length / clientsPerPage);
+  const clientsOnPage = sortedClients.slice(
+    (page - 1) * clientsPerPage,
+    page * clientsPerPage
+  );
 
   return (
     <Box sx={{ width: "100%", p: 3, backgroundColor: "#f9f9f9" }}>
@@ -125,45 +134,79 @@ const ClientsPage: React.FC<ClientsPageProps> = ({ clients, onSelect }) => {
         display="flex"
         justifyContent="space-between"
         alignItems="center"
+        flexWrap="wrap"
+        gap={2}
       >
         <Typography variant="body1" fontWeight={500}>
-          <strong>{clients.length} clientes encontrados:</strong>
+          <strong>{localClients.length} clientes encontrados:</strong>
         </Typography>
-        <Box display="flex" alignItems="center" gap={1}>
-          <Typography variant="body1" fontWeight={500}>
-            Clientes por página:
-          </Typography>
 
-          <Select
-            size="small"
-            value={clientsPerPage}
-            onChange={(e) => {
-              setClientsPerPage(Number(e.target.value));
-              setPage(1);
-            }}
-            sx={{
-              height: 36,
-              fontSize: 14,
-              minWidth: 72,
-              "& .MuiOutlinedInput-notchedOutline": {
-                borderColor: "#ccc",
-              },
-              "&:hover .MuiOutlinedInput-notchedOutline": {
-                borderColor: "#f37021",
-              },
-              "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-                borderColor: "#f37021",
-              },
-            }}
-          >
-            <MenuItem value={8}>8</MenuItem>
-            <MenuItem value={16}>16</MenuItem>
-            <MenuItem value={24}>24</MenuItem>
-            <MenuItem value={32}>32</MenuItem>
-          </Select>
+        <Box display="flex" alignItems="center" gap={2} flexWrap="wrap">
+          <Box display="flex" alignItems="center" gap={1}>
+            <Typography variant="body1" fontWeight={500}>
+              Clientes por página:
+            </Typography>
+            <Select
+              size="small"
+              value={clientsPerPage}
+              onChange={(e) => {
+                const value = Number(e.target.value);
+                setClientsPerPage(value);
+                localStorage.setItem("clientsPerPage", value.toString());
+                setPage(1);
+              }}
+              sx={{
+                height: 36,
+                fontSize: 14,
+                minWidth: 72,
+                "& .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "#ccc",
+                },
+                "&:hover .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "#f37021",
+                },
+                "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "#f37021",
+                },
+              }}
+            >
+              <MenuItem value={8}>8</MenuItem>
+              <MenuItem value={16}>16</MenuItem>
+              <MenuItem value={24}>24</MenuItem>
+              <MenuItem value={32}>32</MenuItem>
+            </Select>
+          </Box>
+
+          <Box display="flex" alignItems="center" gap={1}>
+            <Typography variant="body1" fontWeight={500}>
+              Ordem:
+            </Typography>
+            <Select
+              size="small"
+              value={sortOrder}
+              onChange={(e) => setSortOrder(e.target.value as "asc" | "desc")}
+              sx={{
+                height: 36,
+                fontSize: 14,
+                minWidth: 100,
+                "& .MuiOutlinedInput-notchedOutline": { borderColor: "#ccc" },
+                "&:hover .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "#f37021",
+                },
+                "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                  borderColor: "#f37021",
+                },
+              }}
+            >
+              <MenuItem value="asc">A → Z</MenuItem>
+              <MenuItem value="desc">Z → A</MenuItem>
+            </Select>
+          </Box>
         </Box>
       </Box>
+
       <Grid container spacing={2}>
+        {" "}
         {clientsOnPage.length > 0
           ? clientsOnPage.map((client, index) => (
               <Grid key={index} size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
@@ -216,7 +259,9 @@ const ClientsPage: React.FC<ClientsPageProps> = ({ clients, onSelect }) => {
                       size="small"
                       onClick={() => {
                         setEditData({
-                          ...client,
+                          id: client.id,
+                          name: client.name,
+                          salary: client.salary.toString(),
                           companyValue: client.companyValuation.toString(),
                         });
                         setOpenModal(true);
@@ -241,6 +286,7 @@ const ClientsPage: React.FC<ClientsPageProps> = ({ clients, onSelect }) => {
             ))
           : Array.from({ length: clientsPerPage }).map((_, index) => (
               <Grid key={index} size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+                {" "}
                 <Skeleton
                   variant="rectangular"
                   height={146}
@@ -287,12 +333,14 @@ const ClientsPage: React.FC<ClientsPageProps> = ({ clients, onSelect }) => {
           }}
         />
       </Box>
+
       <ClientModal
         open={openModal}
         handleClose={() => setOpenModal(false)}
         onSubmit={handleSubmitClient}
         initialData={editData || {}}
       />
+
       {clientToDelete && (
         <DeleteClientModal
           open={deleteModalOpen}

@@ -3,7 +3,6 @@ import { Box, Typography, Grid, IconButton } from "@mui/material";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import type { SelectedClientsPageProps } from "../types";
 
-
 const SelectedClientsPage: React.FC<SelectedClientsPageProps> = ({
   selectedClients,
   onClear,
@@ -31,12 +30,38 @@ const SelectedClientsPage: React.FC<SelectedClientsPageProps> = ({
       currency: "BRL",
     }).format(value);
 
+  const totalSalarios = selectedClients.reduce(
+    (acc, client) => acc + client.salary,
+    0
+  );
+  const totalEmpresas = selectedClients.reduce(
+    (acc, client) => acc + client.companyValuation,
+    0
+  );
+  const totalGeral = totalSalarios + totalEmpresas;
+
   return (
-    <Box sx={{ width: "100%", p: 3, backgroundColor: "#f9f9f9" }}>
-      <Typography variant="h6" component="h2" mb={3}>
+    <Box
+      sx={{
+        width: "100%",
+        maxWidth: "100%",
+        boxSizing: "border-box",
+        p: { xs: 1.5, sm: 3 },
+        backgroundColor: "#f9f9f9",
+        overflowX: "hidden",
+      }}
+    >
+      {/* Título */}
+      <Typography
+        variant="h6"
+        component="h2"
+        mb={3}
+        sx={{ fontSize: { xs: "0.9rem", sm: "1rem", md: "1.125rem" } }}
+      >
         <strong>Clientes selecionados: {selectedClients.length}</strong>
       </Typography>
 
+      {/* Lista de clientes */}
       <Grid container spacing={2}>
         {selectedClients && selectedClients.length > 0 ? (
           selectedClients.map((client, index) => {
@@ -44,7 +69,6 @@ const SelectedClientsPage: React.FC<SelectedClientsPageProps> = ({
 
             return (
               <Grid key={index} size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
-                {" "}
                 <Box
                   sx={{
                     position: "relative",
@@ -69,14 +93,32 @@ const SelectedClientsPage: React.FC<SelectedClientsPageProps> = ({
                   }}
                 >
                   <Box>
-                    <Typography variant="subtitle1" fontWeight="bold" mb={0.5}>
+                    <Typography
+                      variant="subtitle1"
+                      fontWeight="bold"
+                      mb={0.5}
+                      sx={{
+                        fontSize: { xs: "0.85rem", sm: "1rem", md: "1.125rem" },
+                      }}
+                    >
                       {client.name}
                     </Typography>
-                    <Typography variant="body2" mb={0.5}>
+                    <Typography
+                      variant="body2"
+                      mb={0.5}
+                      sx={{
+                        fontSize: { xs: "0.75rem", sm: "0.875rem", md: "1rem" },
+                      }}
+                    >
                       Salário: {formatCurrency(client.salary)}
                     </Typography>
-                    <Typography variant="body2">
-                      Empresa: {client.companyValuation}
+                    <Typography
+                      variant="body2"
+                      sx={{
+                        fontSize: { xs: "0.75rem", sm: "0.875rem", md: "1rem" },
+                      }}
+                    >
+                      Empresa: {formatCurrency(client.companyValuation)}
                     </Typography>
                   </Box>
 
@@ -99,7 +141,6 @@ const SelectedClientsPage: React.FC<SelectedClientsPageProps> = ({
           })
         ) : (
           <Grid size={{ xs: 12 }}>
-            {" "}
             <Box
               sx={{
                 p: 4,
@@ -114,6 +155,7 @@ const SelectedClientsPage: React.FC<SelectedClientsPageProps> = ({
         )}
       </Grid>
 
+      {/* Botão limpar */}
       {selectedClients.length > 0 && (
         <Box mt={4}>
           <button
@@ -133,6 +175,93 @@ const SelectedClientsPage: React.FC<SelectedClientsPageProps> = ({
           >
             Limpar clientes selecionados
           </button>
+        </Box>
+      )}
+
+      {selectedClients.length > 0 && (
+        <Box
+          mt="76px !important"
+          p={{ xs: 2, sm: 3 }}
+          borderRadius={3}
+          boxShadow="0 4px 12px rgba(0,0,0,0.08)"
+          sx={{
+            backgroundColor: "#fff",
+            maxWidth: 500,
+            margin: "0 auto",
+          }}
+        >
+          <Typography
+            variant="h6"
+            mb={3}
+            fontWeight="bold"
+            align="center"
+            sx={{ color: "#333" }}
+          >
+            Totais dos clientes selecionados
+          </Typography>
+
+          <Grid container spacing={2}>
+            <Grid size={{ xs: 12, sm: 4 }}>
+              <Box
+                p={2}
+                borderRadius={2}
+                textAlign="center"
+                sx={{
+                  backgroundColor: "#f5f5f5",
+                  transition: "transform 0.2s",
+                  "&:hover": { transform: "scale(1.03)" },
+                }}
+              >
+                <Typography variant="body2" color="textSecondary">
+                  Salários
+                </Typography>
+                <Typography variant="subtitle1" fontWeight="bold" mt={0.5}>
+                  {formatCurrency(totalSalarios)}
+                </Typography>
+              </Box>
+            </Grid>
+
+            <Grid size={{ xs: 12, sm: 4 }}>
+              <Box
+                p={2}
+                borderRadius={2}
+                textAlign="center"
+                sx={{
+                  backgroundColor: "#f5f5f5",
+                  transition: "transform 0.2s",
+                  "&:hover": { transform: "scale(1.03)" },
+                }}
+              >
+                <Typography variant="body2" color="textSecondary">
+                  Empresas
+                </Typography>
+                <Typography variant="subtitle1" fontWeight="bold" mt={0.5}>
+                  {formatCurrency(totalEmpresas)}
+                </Typography>
+              </Box>
+            </Grid>
+
+            <Grid size={{ xs: 12, sm: 4 }}>
+              <Box
+                p={2}
+                borderRadius={2}
+                textAlign="center"
+                sx={{
+                  backgroundColor: "#f37021",
+                  color: "#fff",
+                  transition: "transform 0.2s",
+                  "&:hover": { transform: "scale(1.03)" },
+                }}
+              >
+                <Typography variant="body2" sx={{ opacity: 0.9 }}>
+                  Total Geral
+                </Typography>
+                <Typography variant="subtitle1" fontWeight="bold" mt={0.5}>
+                  {formatCurrency(totalGeral)}
+                </Typography>
+              </Box>
+            </Grid>
+          </Grid>
         </Box>
       )}
     </Box>
