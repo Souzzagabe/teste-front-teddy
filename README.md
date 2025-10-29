@@ -29,6 +29,6 @@ Inicie cada micro-frontend individualmente com `pnpm run serve-mf`, começando p
 Após iniciar todos os micro-frontends, abra seu navegador e acesse `http://localhost:5000/login`.
 
 
-5.deploy:
+5.Deploy:
 
 - https://teste-front-teddy.vercel.app/login
