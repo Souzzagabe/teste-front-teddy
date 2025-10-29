@@ -6,8 +6,6 @@ Este projeto é estruturado em **Micro-Frontends (MF)** e possui três aplicaç�
 
 Clone o repositório do projeto para sua máquina.
 
--Entre na branch main
-
 2. **Instale as dependências**:
 
 Vá para cada micro-frontend e execute `pnpm install`:
